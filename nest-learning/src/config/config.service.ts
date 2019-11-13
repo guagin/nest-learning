@@ -18,6 +18,9 @@ export class ConfigService {
       filePath
     );
     this.envConfig = dotenv.parse(fs.readFileSync(envFile));
-    console.log(JSON.stringify(this.envConfig));
+  }
+
+  getConfig() {
+    return this.envConfig;
   }
 }
