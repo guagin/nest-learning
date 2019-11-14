@@ -48,7 +48,7 @@ export class CatsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id', new ParseIntPipe()) id: number) {
+  async findOne(@Param('id', ParseIntPipe) id: number) {
     console.log(`id: ${id}`)
     return 'shit'
   }
