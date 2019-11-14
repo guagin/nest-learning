@@ -10,6 +10,8 @@ import {
   UsePipes,
   // ParseIntPipe,
   Param,
+  UseGuards,
+  SetMetadata,
   // ValidationPipe,
 
 } from "@nestjs/common";
@@ -19,8 +21,11 @@ import { TestException } from "src/common/exceptions/not-implement.exception";
 import { CreateCatDto } from "./dto/create-cat.dto";
 import { ValidationPipe } from "src/common/pipes/validation.pipe";
 import { ParseIntPipe } from "src/common/pipes/parse-int.pipe";
+import { AuthGuard } from "src/common/guard/auth.guard";
+import { Roles } from "src/common/guard/role.decorator";
 
 @Controller("cats")
+@UseGuards(AuthGuard)
 export class CatsController {
   constructor(private readonly catService: CatsService) { }
 
@@ -32,17 +37,19 @@ export class CatsController {
     return "this will create cat";
   }
 
-  @Get('findAll')
+  @Get('all')
   async get(): Promise<Cat[]> {
     return this.catService.getAll();
   }
 
   @Get("/triggerError")
+  @Roles('admin')
   async triggerError(@Query("msg") msg: string): Promise<void> {
     throw new HttpException(`${msg}`, HttpStatus.NOT_IMPLEMENTED);
   }
 
   @Get("/triggerError2")
+  @Roles('admin')
   async triggerError2(@Query("msg") msg: string): Promise<void> {
     throw new TestException();
   }
