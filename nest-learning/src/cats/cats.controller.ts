@@ -26,6 +26,7 @@ import { Roles } from "src/common/guard/role.decorator";
 
 @Controller("cats")
 @UseGuards(AuthGuard)
+@Roles('admin')
 export class CatsController {
   constructor(private readonly catService: CatsService) { }
 
@@ -43,13 +44,11 @@ export class CatsController {
   }
 
   @Get("/triggerError")
-  @Roles('admin')
   async triggerError(@Query("msg") msg: string): Promise<void> {
     throw new HttpException(`${msg}`, HttpStatus.NOT_IMPLEMENTED);
   }
 
   @Get("/triggerError2")
-  @Roles('admin')
   async triggerError2(@Query("msg") msg: string): Promise<void> {
     throw new TestException();
   }
