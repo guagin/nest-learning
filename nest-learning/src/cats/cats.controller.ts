@@ -37,12 +37,10 @@ export class CatsController {
   constructor(private readonly catService: CatsService,
     private readonly systemLogsService: SystemLogsService) { }
 
-  @Post()
+  @Post('create')
   @UsePipes(ValidationPipe) // TODO: need create catSchema
-  create(@Body() createCatDto: CreateCatDto): string {
-    //TODO: validate body?
-    console.log(`createCatDto: ${JSON.stringify(createCatDto)}`)
-    return "this will create cat";
+  async create(@Body() createCatDto: CreateCatDto): Promise<Cat> {
+    return this.catService.create(createCatDto)
   }
 
   @Get('all')

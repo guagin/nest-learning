@@ -16,6 +16,7 @@ import { SystemLogsModule } from "./system-logs/system-logs.module";
 import { APP_FILTER } from "@nestjs/core";
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { MongooseModule } from '@nestjs/mongoose'
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { UsersModule } from './users/users.module';
     ConfigModule.register({ folder: "./config" }),
     UsersModule,
     AuthModule,
+    MongooseModule.forRoot('mongodb://ricky:imRicky@localhost:27021')
   ],
   controllers: [AppController],
   providers: [

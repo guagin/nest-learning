@@ -4,7 +4,6 @@ import {
   ArgumentsHost,
   Catch,
   HttpStatus,
-  Inject
 } from "@nestjs/common";
 
 import { SystemLogsService } from "src/system-logs/system-logs.service";

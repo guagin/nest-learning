@@ -14,7 +14,7 @@ export class LoggingInterceptor implements NestInterceptor {
             .handle()
             .pipe(
                 tap(() => this.systemLogsService.printOut(`After... ${Date.now() - now}ms`)),
-                catchError(err => throwError(new ConflictException()))
+                catchError(err => throwError(err))
             );
     }
 }

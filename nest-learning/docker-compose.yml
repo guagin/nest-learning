@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  mongo:
+    container_name: learning-mongo
+    image: mongo:3.6
+    restart: always
+    # Uncomment the next two lines to connect to your your database from outside the Docker environment, e.g. using a database GUI like Compass
+    # ports:
+    # - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ricky
+      MONGO_INITDB_ROOT_PASSWORD: imRicky
+    ports:
+      - '27021:27017'
+    volumes:
+      - mongo:/var/lib/mongo
+volumes:
+  mongo:
