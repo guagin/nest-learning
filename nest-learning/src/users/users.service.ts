@@ -11,7 +11,7 @@ export class UsersService {
             {
                 userId: 1,
                 username: 'john',
-                password: 'changenme',
+                password: 'changeme',
             },
             {
                 userId: 2,
