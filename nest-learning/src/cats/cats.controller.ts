@@ -12,6 +12,7 @@ import {
   Param,
   UseGuards,
   SetMetadata,
+  UseInterceptors,
   // ValidationPipe,
 
 } from "@nestjs/common";
@@ -22,13 +23,19 @@ import { CreateCatDto } from "./dto/create-cat.dto";
 import { ValidationPipe } from "src/common/pipes/validation.pipe";
 import { ParseIntPipe } from "src/common/pipes/parse-int.pipe";
 import { AuthGuard } from "src/common/guard/auth.guard";
-import { Roles } from "src/common/guard/role.decorator";
+// import { Roles } from "src/common/decorators/role.decorator";
+import { LoggingInterceptor } from "src/common/interceptors/logging.interceptor";
+import { SystemLogsService } from "src/system-logs/system-logs.service";
+import { ExcludeNullInterceptor } from "src/common/interceptors/execlude-null.interceptor";
+import { Cache } from "src/common/decorators/cache.decorator";
 
 @Controller("cats")
 @UseGuards(AuthGuard)
-@Roles('admin')
+// @Roles('admin')
+@UseInterceptors(LoggingInterceptor, ExcludeNullInterceptor)
 export class CatsController {
-  constructor(private readonly catService: CatsService) { }
+  constructor(private readonly catService: CatsService,
+    private readonly systemLogsService: SystemLogsService) { }
 
   @Post()
   @UsePipes(ValidationPipe) // TODO: need create catSchema
@@ -55,7 +62,10 @@ export class CatsController {
 
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
-    console.log(`id: ${id}`)
-    return 'shit'
+    this.systemLogsService.printOut(`id: ${id}`)
+    return {
+      msg: 'shit',
+      msg2: null
+    }
   }
 }

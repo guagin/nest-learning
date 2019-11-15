@@ -2,7 +2,8 @@ import {
   Module,
   NestModule,
   MiddlewareConsumer,
-  RequestMethod
+  RequestMethod,
+  OnApplicationShutdown
 } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -13,12 +14,16 @@ import { CatsController } from "./cats/cats.controller";
 import { HttpExceptionFilter } from "./common/exceptions/http.exception";
 import { SystemLogsModule } from "./system-logs/system-logs.module";
 import { APP_FILTER } from "@nestjs/core";
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    CatsModule,
     SystemLogsModule,
-    ConfigModule.register({ folder: "./config" })
+    CatsModule,
+    ConfigModule.register({ folder: "./config" }),
+    UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
@@ -33,4 +38,5 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes(CatsController);
   }
+
 }
