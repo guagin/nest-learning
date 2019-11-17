@@ -13,7 +13,7 @@ export class CatsService {
 
   async create(createCatDto: CreateCatDto): Promise<Cat> {
     const createdCat = new this.catModel(createCatDto)
-    return createdCat;
+    return createdCat.save();
   }
 
   async getAll(): Promise<Cat[]> {

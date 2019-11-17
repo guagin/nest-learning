@@ -25,7 +25,7 @@ import { MongooseModule } from '@nestjs/mongoose'
     ConfigModule.register({ folder: "./config" }),
     UsersModule,
     AuthModule,
-    MongooseModule.forRoot('mongodb://ricky:imRicky@localhost:27021')
+    MongooseModule.forRoot('mongodb://ricky:imRicky@localhost:27021/nest?authSource=admin')
   ],
   controllers: [AppController],
   providers: [
