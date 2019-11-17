@@ -13,8 +13,8 @@ import {
   UseGuards,
   SetMetadata,
   UseInterceptors,
+  CacheInterceptor,
   // ValidationPipe,
-
 } from "@nestjs/common";
 import { Cat } from "./interfaces/cat.interface";
 import { CatsService } from "./cats.service";
@@ -32,13 +32,13 @@ import { Cache } from "src/common/decorators/cache.decorator";
 @Controller("cats")
 @UseGuards(AuthGuard)
 // @Roles('admin')
-@UseInterceptors(LoggingInterceptor, ExcludeNullInterceptor)
+@UseInterceptors(LoggingInterceptor, ExcludeNullInterceptor, CacheInterceptor)
+@UsePipes(ValidationPipe) // TODO: need create catSchema
 export class CatsController {
   constructor(private readonly catService: CatsService,
     private readonly systemLogsService: SystemLogsService) { }
 
   @Post('create')
-  @UsePipes(ValidationPipe) // TODO: need create catSchema
   async create(@Body() createCatDto: CreateCatDto): Promise<Cat> {
     return this.catService.create(createCatDto)
   }

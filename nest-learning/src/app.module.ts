@@ -3,7 +3,9 @@ import {
   NestModule,
   MiddlewareConsumer,
   RequestMethod,
-  OnApplicationShutdown
+  OnApplicationShutdown,
+  CacheModule,
+  CacheInterceptor
 } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -13,7 +15,7 @@ import { LoggerMiddleware } from "./common/middleware/logger.middleware";
 import { CatsController } from "./cats/cats.controller";
 import { HttpExceptionFilter } from "./common/exceptions/http.exception";
 import { SystemLogsModule } from "./system-logs/system-logs.module";
-import { APP_FILTER } from "@nestjs/core";
+import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose'
@@ -25,7 +27,8 @@ import { MongooseModule } from '@nestjs/mongoose'
     ConfigModule.register({ folder: "./config" }),
     UsersModule,
     AuthModule,
-    MongooseModule.forRoot('mongodb://ricky:imRicky@localhost:27021/nest?authSource=admin')
+    MongooseModule.forRoot('mongodb://ricky:imRicky@localhost:27021/nest?authSource=admin'),
+    
   ],
   controllers: [AppController],
   providers: [
@@ -33,8 +36,9 @@ import { MongooseModule } from '@nestjs/mongoose'
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter
-    }
-  ]
+    },
+   
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

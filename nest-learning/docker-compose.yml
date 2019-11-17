@@ -3,7 +3,7 @@ version: '2'
 services:
   mongo:
     container_name: mongo
-    image: mongo:3.6
+    image: mongo
     restart: always
     # Uncomment the next two lines to connect to your your database from outside the Docker environment, e.g. using a database GUI like Compass
     # ports:
